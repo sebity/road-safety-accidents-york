@@ -1,12 +1,12 @@
 library(shiny)
-library(rCharts)
+library(leaflet)
 
 ui <- bootstrapPage(
   tags$style(type = "text/css", "html, body {width:100%;height:100%}"),
   leafletOutput("map", width = "100%", height = "100%"),
   absolutePanel(
     top = 10,
-    right = 10,
+    right = 20,
     width = 400,
     draggable = TRUE,
     wellPanel(
@@ -28,7 +28,7 @@ ui <- bootstrapPage(
 
           dateRangeInput('sel_date_range',
                          label = 'Date range input: yyyy-mm-dd',
-                         start = min(accidents$Date), end = max(accidents$Date)
+                         start = "2005-01-01", end = "2014-12-31"
           ),
 
           selectInput("sel_heat_map",
@@ -36,11 +36,8 @@ ui <- bootstrapPage(
                       choices = c("No"=0, "Yes"=1),
                       selected = "0"),
           p("Please Note: Turn off the density map to view accident details.")
-
-          #plotOutput("plot_hist")
         ),
         tabPanel("About", includeMarkdown("about.md"))
-
       )
     ),
     style="opacity: 0.9"

@@ -1,12 +1,9 @@
 library(shiny)
 library(dplyr)
 library(lubridate)
-library(ggplot2)
-library(ggmap)
 library(leaflet)
 library(RColorBrewer)
-library(rjson)
-
+library(KernSmooth)
 
 accidents <- read.csv("./data/accidents.csv", header=TRUE, na.strings = c("","NA","-1"))
 
@@ -50,12 +47,8 @@ shinyServer(
       if(input$sel_severity > 0) {
         temp <- temp[temp$Accident_Severity == input$sel_severity,]
       }
-
       road_type <- temp
     })
-
-
-
 
     output$map <- renderLeaflet({
       leaflet(accidents) %>%
@@ -64,10 +57,8 @@ shinyServer(
     })
 
     observe({
-
       X <- cbind(road_type()$Longitude, road_type()$Latitude)
 
-      #kde2d <- bkde2D(X, bandwidth=c(bw.ucv(X[,1]),bw.ucv(X[,2])))
       if (input$sel_road_type == 2) {
         kde2d <- bkde2D(X, bandwidth=c(0.00225,0.00225))
       }
@@ -114,12 +105,9 @@ shinyServer(
                   pal = pal,
                   values = ~factor(accidents$Accident_Severity, labels=c("Fatal","Serious","Slight"))
       )
-
-
     })
 
     output$plot_hist  <- renderPlot({
-      #boxplot(Accident_Severity~Weather_Conditions, data=road_type())
       map <- get_map(location = "UK, York",
                      zoom = 14,
                      maptype = "roadmap")
