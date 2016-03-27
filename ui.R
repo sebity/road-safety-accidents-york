@@ -35,7 +35,9 @@ ui <- bootstrapPage(
                       label = "Show Density Map",
                       choices = c("No"=0, "Yes"=1),
                       selected = "0"),
-          p("Please Note: Turn off the density map to view accident details.")
+          p("Please Note: Turn off the density map to view accident details."),
+
+          tableOutput("results")
         ),
         tabPanel("About", includeMarkdown("about.md"))
       )

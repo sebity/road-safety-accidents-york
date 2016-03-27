@@ -7,20 +7,23 @@ library(KernSmooth)
 
 accidents <- read.csv("./data/accidents.csv", header=TRUE, na.strings = c("","NA","-1"))
 
-# Convert the date
-accidents$Date <- dmy_hm(accidents$Date)
-
-# Add Day Name to Dataset
-accidents$Day <- factor(wday(accidents$Day_of_Week, label = TRUE, abbr = FALSE))
-
-accidents$Year <- factor(year(accidents$Date))
-
+# Create Presets
 severity_enum <- c("Fatal", "Serious", "Slight")
 light_cond_enum <- c("Daylight","","","Darkness - Lights Lit", "Darkness - Lights Unlit", "Darkness - No Lighting",
                      "Darkness - Lighting Unknown")
 weather_enum <- c("Fine no High Winds", "Raining no High Winds", "Snowing no High Winds", "Fine + High Winds",
                   "Raining + High Winds", "Snowing + High Winds", "Fog or Mist", "Other", "Unknown")
 road_surface_enum <- c("Dry", "Wet or Damp", "Snow", "Frost or Ice", "Flood over 3cm", "Oil or Diesel", "Mud")
+
+
+# Convert the date
+accidents$Date <- dmy_hm(accidents$Date)
+
+# Add Day Name to Dataset
+accidents$Day <- factor(wday(accidents$Day_of_Week, label = TRUE, abbr = FALSE))
+
+# Create Severity Column
+accidents$Severity <- severity_enum[accidents$Accident_Severity]
 
 
 shinyServer(
@@ -105,6 +108,14 @@ shinyServer(
                   pal = pal,
                   values = ~factor(accidents$Accident_Severity, labels=c("Fatal","Serious","Slight"))
       )
+
+      output$results <- renderTable({
+        accident_count <- road_type() %>%
+          group_by(Severity) %>%
+          summarise(Total = length(Accident_Severity))
+
+        accident_count
+      })
     })
 
     output$plot_hist  <- renderPlot({
