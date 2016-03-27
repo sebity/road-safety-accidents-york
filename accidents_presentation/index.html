@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Road Traffic Accidents in York, UK</title>
+  <meta name="description" content="">
+  <meta name="author" content="Jan Tatham">
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <link rel="stylesheet" href="libraries/frameworks/revealjs/css/reveal.min.css">
+  <link rel="stylesheet" href="libraries/frameworks/revealjs/css/theme/moon.css" id="theme">
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css" id="theme">
+  <!--[if lt IE 9]>
+  <script src="lib/js/html5shiv.js"></script>
+  <![endif]-->  <link rel="stylesheet" href = "assets/css/ribbons.css">
+
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <section class='' data-state='' id='slide-1'>
+  
+  <style>
+.reveal p {
+  color: #eeeeee;
+  padding-bottom: 20px;
+}
+
+.reveal li {
+  color: #aaaaaa;
+  padding-bottom: 20px;
+}
+
+.reveal .norm p {
+  text-align: left;
+}
+
+.reveal ul {
+  display: block;
+  text-align: left;
+}
+
+</style>
+
+<h2>Road Traffic Accidents in York, UK</h2>
+
+<h3>Between 2005 and 2014</h3>
+
+<h4>(Developing Data Products Course Application)</h4>
+
+<hr>
+
+<p><img src="assets/img/rta.png" border="1"></p>
+
+<p>by Jan Tatham</p>
+
+</section>
+<section class='norm' data-state='' id='slide-2'>
+  <h2>Introduction</h2>
+  <p>This presentation is made as part of the Coursera Developing Data Products Course Project.  The objectives of the assignment are to ensure a sound understanding of the following concepts:</p>
+
+<ul>
+<li>To build a Data Product Application using the Shiny Package</li>
+<li>To produce a Reproducible Pitch Presentation based on the Data Product</li>
+</ul>
+
+</section>
+<section class='norm' data-state='' id='slide-3'>
+  <h2>The Application</h2>
+  <p>The Road Traffic Accidents Application provides the user with an interface to explore and visualise road traffic accidents that occured in York, UK between 2005 and 2014.</p>
+
+<p>The application allows the user to see on a map where to accidents occured, aw well as find out details about the accident by clicking on their placeholder.  Placeholders are colour coded to help the user to see at a glance if the accident had a fatal, serious or slight outcome.</p>
+
+<p>Users are able filter the information via the right hand menu and able to zoom in and out of the map as well as move it around to better understand the results.</p>
+
+<p>The application is available at: <a href="https://sebity.shinyapps.io/road-safety-accidents-york/">https://sebity.shinyapps.io/road-safety-accidents-york/</a></p>
+
+</section>
+<section class='norm' data-state='' id='slide-4'>
+  <h2>The Dataset</h2>
+  <p>The Data was published by the City of York Council Department for Transport in the UK, and details data about road traffic accidents within the City of York between 2005 and 2014.</p>
+
+<p>The dataset contains 4778 observations and 32 variables and has been recorded using the STATS19 accident reporting form.</p>
+
+<p>The dataset is available from <a href="http://data.yorkopendata.org/dataset/c0eec478-ef19-4234-826f-8efb9563eda2/resource/aa8bcb3d-3945-4347-adc9-24d8e1d3e05c/download/accidents.csv">DATA.GOK.UK</a></p>
+
+<p>The dataset documentation/information is available from the <a href="https://data.yorkopendata.org/dataset/road-safety">City of York Council</a> website.</p>
+
+</section>
+<section class='' data-state='' id='slide-5'>
+  <h2>Example Density Map</h2>
+  <pre><code class="r">map &lt;- get_map(location = &quot;UK, York&quot;,zoom=12,maptype=&quot;roadmap&quot;,color=&quot;bw&quot;)
+p &lt;- ggmap(map)
+p &lt;- p + stat_density2d(data=accidents_rt, aes(x = Longitude, y = Latitude,
+    fill= ..level.., alpha=..level..), size=5, bins=8, geom=&quot;polygon&quot;)
+print(p)
+</code></pre>
+
+<p><img src="assets/fig/unnamed-chunk-3-1.png" alt="plot of chunk unnamed-chunk-3"></p>
+
+</section>
+    </div>
+  </div>
+</body>
+  <script src="libraries/frameworks/revealjs/lib/js/head.min.js"></script>
+  <script src="libraries/frameworks/revealjs/js/reveal.min.js"></script>
+  <script>
+  // Full list of configuration options available here:
+  // https://github.com/hakimel/reveal.js#configuration
+  Reveal.initialize({
+    controls: true,
+    progress: true,
+    history: true,
+    center: false,
+    theme: Reveal.getQueryHash().theme || 'moon', 
+    transition: Reveal.getQueryHash().transition || 'default', 
+    dependencies: [
+    // Cross-browser shim that fully implements classList -
+    // https://github.com/eligrey/classList.js/
+      { src: 'libraries/frameworks/revealjs/lib/js/classList.js', condition: function() { return !document.body.classList;}},
+      // Zoom in and out with Alt+click
+      { src: 'libraries/frameworks/revealjs/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+      // Speaker notes
+      { src: 'libraries/frameworks/revealjs/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+      // Remote control your reveal.js presentation using a touch device
+      //{ src: 'libraries/frameworks/revealjs/plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+      ]
+  });
+  </script>  <!-- LOAD HIGHLIGHTER JS FILES -->
+<script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<!-- DONE LOADING HIGHLIGHTER JS FILES -->
+ 
+
+</html>

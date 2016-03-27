@@ -1,0 +1,11 @@
+base
+slidify
+knitr
+shiny
+leaflet
+dplyr
+lubridate
+RColorBrewer
+KernSmooth
+ggplot2
+ggmap
